@@ -1,251 +1,93 @@
 pico-8 cartridge // http://www.pico-8.com
 version 41
 __lua__
--- kiissmot game
+-- Global Variables
+pet_stats = {hunger=100, energy=100, happiness=100}
+money = 0
+pet_name = "kiissmot"
+current_screen = "home"
 
--- constants
-local max_hunger = 99
-local max_happiness = 100
-local max_energy = 100
-local max_money = 999
-local max_name_length = 8
-local max_hp = 3
-
--- variables
-local petname = ""
-local hunger = max_hunger
-local happiness = max_happiness
-local energy = max_energy
-local money = 0
-local time = 0
-local isoutside = false
-local caught = false
-local clothes = {
-    hat = false,
-    bow = false,
-    golden_duck = false
-}
-local hp = max_hp
-local bosslevel = 0
-
--- functions
-
+-- Initialization
 function _init()
- -- initialize game
+  -- Set initial game state
 end
 
 function _update()
- -- update game logic
- time += 1
- checktime()
- checkstatus()
+  -- Call update function based on current_screen
+    if current_screen == "home" then
+        update_home()
+    elseif current_screen == "shmup" then
+        update_shmup_screen()
+    elseif current_screen == "shop" then
+        update_shop_screen()
+    end
 end
 
 function _draw()
- -- clear the screen
- cls()
-
- -- draw pet sprites at the top middle
- local pet_width = 8  -- assuming pet sprite is 10x10 pixels
- local screen_width = 128
- local pet_x = (screen_width - pet_width) / 2
- local pet_y = 10
- spr(3, pet_x, pet_y)    -- first part sprite
- spr(13, pet_x, pet_y + 10) -- second part sprite
-
- -- print pet name and status
- print("pet name: " .. petname, 10, 60, 7)
- print("hunger: " .. hunger, 10, 70, 7)
- print("happiness: " .. happiness, 10, 80, 7)
- print("energy: " .. energy, 10, 90, 7)
- print("money: " .. money, 10, 100, 7)
-
- -- if outside, show hp
- if isoutside then
-     print("hp: ", 10, 110, 7)
-     for i = 1, max_hp do
-         if i <= hp then
-             spr(1, 20 + (i - 1) * 10, 120)
-         else
-             spr(2, 20 + (i - 1) * 10, 120)
-         end
-     end
- end
-
- -- if caught, show message
- if isoutside and caught then
-     print("you got caught! money -50", 10, 130, 8)
- elseif isoutside then
-     print("avoid the obstacles to earn money!", 10, 130, 11)
- end
-end
-
-function checktime()
- -- update game time
- -- implement timing events here
-end
-
-function checkstatus()
- -- check and update pet's status
- if hunger <= 0 or happiness <= 0 or energy <= 0 or hp <= 0 then
-    gameover()
- end
-end
-
-function gameover()
- -- game over logic
-end
-
-function feed()
- -- feed the pet
- hunger += 10
- if hunger > max_hunger then
-    hunger = max_hunger
- end
-end
-
-function play()
- -- play with the pet
- happiness += 10
- if happiness > max_happiness then
-    happiness = max_happiness
- end
- energy -= 5
- if energy < 0 then
-    energy = 0
- end
-end
-
-function sleep()
- -- put the pet to sleep
- energy += 20
- if energy > max_energy then
-    energy = max_energy
- end
-end
-
-function gooutside()
- -- take the pet outside
- isoutside = true
- hp = max_hp
- bosslevel = 0
-end
-
-function avoidobstacle()
- -- player avoids obstacle
- if not caught then
-    money += 10
- end
-end
-
-function caughtbypolice()
- -- player gets caught by police
- caught = true
- money -= 50
- if money < 0 then
-    money = 0
- end
- hp -= 1
-end
-
-function buyclothes(item)
- -- player buys clothes for the pet
- local price = 0
- if item == "hat" then
-    price = 100
- elseif item == "bow" then
-    price = 250
- elseif item == "golden_duck" then
-    price = 500
- end
- if money >= price then
-    money -= price
-    clothes[item] = true
- end
-end
-
-function setpetname(name)
- -- set the pet's name
- petname = name:sub(1, max_name_length)
-end
-
-function fightboss()
- -- fight the boss
- if hp > 0 then
-    bosslevel += 1
-    local bosshp = bosslevel * 10
-    while bosshp > 0 and hp > 0 do
-        bosshp -= 1
-        hp -= 1
+  -- Call draw function based on current_screen
+    if current_screen == "home" then
+        draw_home()
+    elseif current_screen == "shmup" then
+        draw_shmup_screen()
+    elseif current_screen == "shop" then
+        draw_shop_screen()
+    elseif current_screen == "Eating" then
+        draw_eating_screen()
     end
-    if hp > 0 then
-        if bosslevel == 1 then
-            money += 50
-        elseif bosslevel == 2 then
-            money += 100
-        elseif bosslevel == 3 then
-            money += 200
-        end
-    end
- end
 end
 
--- button input
 
-function btn_feed()
- -- button input to feed the pet
- feed()
+-- Draw Functions
+-- Note: The screen is 128x128
+function draw_home()
+    cls(1)
+    -- Draw a black Box to display the pet about 1/3 the height of the screen and 90% of the width--
+    x_off = 9
+    y_off = 9
+    rectfill(x_off, y_off, 128-x_off, 50, 0)
+
+    -- Draw the Pets name in the middlle of the scren--
+    print(pet_name, 64-#pet_name*2, 55, 7)
+    
+    -- Bottom Rectangle for Pet stats and buttons underneath pet name--
+    --rectfill(x_off, 127, 128-x_off, 30, 3)
+    rectfill(x_off, y_off+55 ,128-x_off ,y_off+110, 12)
+    gap = 5
+    -- Inner rectangle for pet stats
+    rectfill(x_off+gap, y_off+55+gap ,128-x_off -gap,y_off+100-gap-10, 0)
+    -- Draw buttons for different screens -- 
+    --print((128-2*x_off-4*gap)/3) --how to calculate the width of the button
+    bw = 30 -- button width
+    rectfill(x_off+gap,y_off+100-10,x_off+gap+bw,y_off+110-gap,2)
+    rectfill(x_off+2*gap+bw,y_off+100-10,x_off+2*gap+2*bw,y_off+110-gap,10)
+    rectfill(x_off+3*gap+2*bw,y_off+100-10,x_off+3*gap+3*bw,y_off+110-gap,11)
+    
+
+  
 end
 
-function btn_play()
- -- button input to play with the pet
- play()
+function draw_shmup_screen()
+  -- Draw screen 1
 end
 
-function btn_sleep()
- -- button input to put the pet to sleep
- sleep()
+function draw_shop_screen()
+  -- Draw screen 2
+end
+-- Similar draw functions for other screens
+
+-- Update Functions
+function update_home()
+  -- Update logic for home screen if needed
 end
 
-function btn_outside()
- -- button input to take the pet outside
- gooutside()
-end
+-- Similar update functions for other screens
 
-function btn_avoid()
- -- button input to avoid obstacle
- avoidobstacle()
+-- Input Handling
+function handle_input()
+  -- Check for user input and update current_screen or call button actions
 end
-
-function btn_caught()
- -- button input when caught by police
- caughtbypolice()
-end
-
-function btn_buy_hat()
- -- button input to buy a hat
- buyclothes("hat")
-end
-
-function btn_buy_bow()
- -- button input to buy a bow
- buyclothes("bow")
-end
-
-function btn_buy_golden_duck()
- -- button input to buy a golden duck
- buyclothes("golden_duck")
-end
-
-function btn_fight_boss()
- -- button input to fight the boss
- fightboss()
-end
-
-function btn_set_name(name)
- -- button input to set pet's name
- setpetname(name)
-end
+-- Initialize game
+_init()
 
 __gfx__
 00000000000000000000000000000000000000000000000000000d0d000000000000000000000000000000000000000000000000000000000000000000000000
