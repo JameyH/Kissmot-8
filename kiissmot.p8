@@ -4,7 +4,7 @@ __lua__
 -- kiissmot game
 
 -- constants
-local max_hunger = 100
+local max_hunger = 99
 local max_happiness = 100
 local max_energy = 100
 local max_money = 999
