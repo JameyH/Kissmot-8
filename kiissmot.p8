@@ -6,6 +6,7 @@ pet_stats = {hunger=100, energy=100, happiness=100}
 money = 0
 pet_name = "kiissmot"
 current_screen = "home"
+home_button = 0
 
 -- Initialization
 function _init()
@@ -55,6 +56,7 @@ function draw_home()
     gap = 5
     -- Inner rectangle for pet stats
     rectfill(x_off+gap, y_off+55+gap ,128-x_off -gap,y_off+100-gap-10, 0)
+
     -- Draw buttons for different screens -- 
     --print((128-2*x_off-4*gap)/3) --how to calculate the width of the button
     bw = 30 -- button width
@@ -62,7 +64,20 @@ function draw_home()
     rectfill(x_off+2*gap+bw,y_off+100-10,x_off+2*gap+2*bw,y_off+110-gap,10)
     rectfill(x_off+3*gap+2*bw,y_off+100-10,x_off+3*gap+3*bw,y_off+110-gap,11)
     
+    -- Draw the stats of the pet
+    text_off = 3
+    print("hunger: "..pet_stats.hunger, x_off+gap+text_off, y_off+57+gap, 7)
+    print("energy: "..pet_stats.energy, x_off+gap+text_off, y_off+56+gap+10, 7)
+    print("happiness: "..pet_stats.happiness, x_off+gap+text_off, y_off+54+gap+20, 7)
+    --print("money: "..money, x_off+gap, y_off+55+gap+30, 7)
 
+    -- Draw the pet in the black box
+    --  spr(n, x, y, [w=1], [h=1], [flip_x=0], [flip_y=0])
+    spr(3, 64-5, 25, 1, 2)
+
+    -- Highlight the current screen button
+    if home_button == 0 then
+        rect(x_off+gap,y_off+100-10,x_off+gap+bw,y_off+110-gap,7)
   
 end
 
