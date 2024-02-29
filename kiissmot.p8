@@ -68,11 +68,14 @@ function draw_home()
     --  spr(n, x, y, [w=1], [h=1], [flip_x=0], [flip_y=0])
     spr(3, 64-5, 25, 1, 2)
 
+
     -- Highlight the current screen button
+    -- Maybe add a Flashing effect to the button?
     if home_button == 0 then
         rect(x_off+gap,y_off+100-10,x_off+gap+bw,y_off+110-gap,7)
     end
 end
+   
 
 function draw_shmup_screen()
   -- Draw screen 1
