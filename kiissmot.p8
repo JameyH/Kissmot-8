@@ -8,6 +8,9 @@ pet_name = "kiissmot"
 current_screen = "home"
 home_button = 0
 
+frame_count = 0
+is_flashing = false
+
 -- Initialization
 function _init()
   -- Set initial game state
@@ -15,6 +18,8 @@ end
 
 function _update()
   -- Call update function based on current_screen
+  frame_count += 1
+
   if current_screen == "home" then
     update_home()
   elseif current_screen == "shmup" then
@@ -53,9 +58,9 @@ function draw_home()
     -- Draw buttons for different screens -- 
     --print((128-2*x_off-4*gap)/3) --how to calculate the width of the button
     bw = 30 -- button width
-    rectfill(x_off+gap,y_off+100-10,x_off+gap+bw,y_off+110-gap,2)
-    rectfill(x_off+2*gap+bw,y_off+100-10,x_off+2*gap+2*bw,y_off+110-gap,10)
-    rectfill(x_off+3*gap+2*bw,y_off+100-10,x_off+3*gap+3*bw,y_off+110-gap,11)
+    rectfill(x_off+gap,y_off+100-10,x_off+gap+bw,y_off+110-gap,0)
+    rectfill(x_off+2*gap+bw,y_off+100-10,x_off+2*gap+2*bw,y_off+110-gap,0)
+    rectfill(x_off+3*gap+2*bw,y_off+100-10,x_off+3*gap+3*bw,y_off+110-gap,0)
     
     -- Draw the stats of the pet
     text_off = 3
@@ -71,10 +76,37 @@ function draw_home()
 
     -- Highlight the current screen button
     -- Maybe add a Flashing effect to the button?
-    if home_button == 0 then
-        rect(x_off+gap,y_off+100-10,x_off+gap+bw,y_off+110-gap,7)
+
+    -- Highlight the current screen button
+
+    if frame_count % 10 == 0 then
+        is_flashing = not is_flashing
     end
+
+    --print(home_button, 40, 40, 7)
+
+    if is_flashing then
+      
+      if home_button == 0 then
+        rect(x_off+gap-1, y_off+100-10-1, x_off+gap+bw+1, y_off+110-gap+1, 7)
+      
+      elseif home_button == 1 then
+        rect(x_off+2*gap+bw-1, y_off+100-10-1, x_off+2*gap+2*bw+1, y_off+110-gap+1, 7)
+      
+      elseif home_button == 2 then
+        rect(x_off+3*gap+2*bw-1, y_off+100-10-1, x_off+3*gap+3*bw+1, y_off+110-gap+1, 7)
+
+      elseif home_button == 3 then
+      -- Draw a flashing rectangle around the the pet 
+        rect(x_off-1, y_off-1, 128-x_off+1, 50+1, 7)
+
+        
+      end
+    end
+
 end
+
+
    
 
 function draw_shmup_screen()
@@ -93,6 +125,29 @@ end
 -- Update Functions
 function update_home()
   -- Update logic for home screen if needed
+  -- Check for button presses
+
+  -- up button is pressed
+  if btnp(2) then
+    home_button = 3
+  end
+
+  -- down button is pressed and home_button is 3
+  if home_button == 3 and btnp(3) then
+    home_button = 0
+  end
+
+  -- Left and right cyles through the buttons 1-3
+  
+  if btnp(1) and home_button < 3 then 
+      home_button = abs(home_button+1)%3
+  end
+  
+  if btnp(0) and home_button < 3 then 
+      home_button = abs(home_button-1)%3
+  end
+
+  
 end
 
 -- Similar update functions for other screens
