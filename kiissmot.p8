@@ -26,6 +26,8 @@ function _update()
     update_shmup_screen()
   elseif current_screen == "shop" then
     update_shop_screen()
+  elseif current_screen == "eating" then
+    update_eating_screen()
   end
 end
 
@@ -33,6 +35,12 @@ function _draw()
   -- Call draw function based on current_screen
   if current_screen == "home" then
     draw_home()
+  elseif current_screen == "shmup" then
+    draw_shmup_screen()
+  elseif current_screen == "shop" then 
+    draw_shop_screen()
+  elseif current_screen == "eating" then
+    draw_eating_screen()
   end
 end
 
@@ -87,13 +95,13 @@ function draw_home()
 
     if is_flashing then
       
-      if home_button == 0 then
+      if home_button == 0 then -- go to the shop
         rect(x_off+gap-1, y_off+100-10-1, x_off+gap+bw+1, y_off+110-gap+1, 7)
       
-      elseif home_button == 1 then
+      elseif home_button == 1 then -- go to the shmup game
         rect(x_off+2*gap+bw-1, y_off+100-10-1, x_off+2*gap+2*bw+1, y_off+110-gap+1, 7)
       
-      elseif home_button == 2 then
+      elseif home_button == 2 then -- go to the eating screen
         rect(x_off+3*gap+2*bw-1, y_off+100-10-1, x_off+3*gap+3*bw+1, y_off+110-gap+1, 7)
 
       elseif home_button == 3 then
@@ -111,15 +119,18 @@ end
 
 function draw_shmup_screen()
   -- Draw screen 1
+  print("shmup screen", 40, 40, 7)
 end
 
 function draw_shop_screen()
   -- Draw screen 2
+  print("shop screen", 40, 40, 7)
 end
 -- Similar draw functions for other screens
 
 function draw_eating_screen()
   -- Draw screen 3
+  print("eating screen", 40, 40, 7)
 end
 
 -- Update Functions
@@ -147,10 +158,46 @@ function update_home()
       home_button = abs(home_button-1)%3
   end
 
-  
+  -- A button is pressed
+  if btnp(4) then
+    if home_button == 0 then
+      cls()
+      current_screen = "shop"
+    elseif home_button == 1 then
+      cls()
+      current_screen = "shmup"
+    elseif home_button == 2 then
+      cls()
+      current_screen = "eating"
+    end
+  end
 end
 
 -- Similar update functions for other screens
+function update_shmup_screen()
+  -- Update logic for shmup screen if needed
+  if btnp(5) then
+    cls()
+    current_screen = "home"
+  end
+end 
+
+function update_shop_screen()
+  -- Update logic for shop screen if needed
+  -- if B button is pressed, go back to home screen
+  if btnp(5) then
+    cls()
+    current_screen = "home"
+  end
+end
+
+function update_eating_screen()
+  -- Update logic for eating screen if needed
+  if btnp(5) then
+    cls()
+    current_screen = "home"
+  end
+end
 
 -- Input Handling
 function handle_input()
