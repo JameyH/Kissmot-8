@@ -6,10 +6,14 @@ pet_stats = {hunger=100, energy=100, happiness=100}
 money = 0
 pet_name = "kiissmot"
 current_screen = "home"
+
+-- Variables for the home screen
 home_button = 0
+is_flashing = false
+pet_interaction_frame = 0
+
 
 frame_count = 0
-is_flashing = false
 
 -- Initialization
 function _init()
@@ -83,13 +87,13 @@ function draw_home()
 
 
     -- Highlight the current screen button
-    -- Maybe add a Flashing effect to the button?
-
     -- Highlight the current screen button
 
     if frame_count % 10 == 0 then
         is_flashing = not is_flashing
+        
     end
+
 
     --print(home_button, 40, 40, 7)
 
@@ -107,13 +111,18 @@ function draw_home()
       elseif home_button == 3 then
       -- Draw a flashing rectangle around the the pet 
         rect(x_off-1, y_off-1, 128-x_off+1, 50+1, 7)
-
         
       end
     end
+  
+  -- draw pet interactions 
+  if pet_interaction_frame > 0 then
+    pet_interaction_frame -= 1
+    -- Draw a flashing rectangle around the the pet 
+    spr(162, 64-17, 12, 3, 2)
+  end
 
 end
-
 
    
 
@@ -169,6 +178,10 @@ function update_home()
     elseif home_button == 2 then
       cls()
       current_screen = "eating"
+    elseif home_button == 3 then
+      -- make a global variable to keep track of the number of frames
+      pet_interaction_frame = 30
+    
     end
   end
 end
@@ -290,7 +303,7 @@ dddddddddddddddddddddddd04449444400000006666666600044444924444000000444944440000
 000000055555dd0000000000000000000000000000005505000055055299aa4999999000000000000007007f7777700000000009a99aaaaaa77a000000000000
 0000000555555d000000000000000000000000000000555555505000529aaaa44aa99000000000000007007f777f700000000099a9aaaaaaaaaa000000000000
 00000005555555000000000077777000000000000000555555500000529aaaa44aaa9000000000000007007f777ff0000000009999aaaaaaaaa0000000000000
-000000005555d0000000000777777770000000055000555505000000029aaaa449aa9000000000000007007f777ff000000009999aaaa777aaa0000000000000
+000000005555d0000000000777777770000000005000555505000000029aaaa449aa9000000000000007007f777ff000000009999aaaa777aaa0000000000000
 00000000055d00000000000777777777000000000555505505000000022aa944499a0000000000000007007f777700000000099a9aaaaaa77aa4000000000000
 0000000000000000000000777777777770000000000055550050000000299594999a000000000000000777ff77770000000099999aa5dddd7ddd000000000000
 0000000000000000000007777577577770000000000055555050000005059259999a000000000000000777ff777700000000999ad550d747777d450000000000
