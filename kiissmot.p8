@@ -15,6 +15,8 @@ pet_interaction_frame = 0
 
 frame_count = 0
 
+--test change
+
 -- Initialization
 function _init()
   -- Set initial game state
@@ -118,8 +120,9 @@ function draw_home()
   -- draw pet interactions 
   if pet_interaction_frame > 0 then
     pet_interaction_frame -= 1
-    -- Draw a flashing rectangle around the the pet 
-    spr(162, 64-17, 12, 3, 2)
+    -- Draw a speech bubble from the pet
+
+    spr(162, 64-17, 13, 3, 2)
   end
 
 end
