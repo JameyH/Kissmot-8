@@ -15,7 +15,10 @@ pet_interaction_frame = 0
 
 frame_count = 0
 
---test change
+--player position
+player = {x=64, y=64,flip1=false, flip2=false}
+
+
 
 -- Initialization
 function _init()
@@ -131,8 +134,26 @@ end
 
 function draw_shmup_screen()
   -- Draw screen 1
-  print("shmup screen", 40, 40, 7)
+  -- the main character is sprite 6, his position should be a variable, so he can move
+  cls(0)
+  spr(6, player.x, player.y, 2, 2,player.flip1,player.flip2)
 end
+
+-- Similar update functions for other screens
+function update_shmup_screen()
+  -- Update logic for shmup screen if needed
+  if btnp(5) then
+    cls()
+    current_screen = "home"
+  end
+
+  if btn(0) then player.x -= 2 player.flip1 = false player.flip2 = false end
+  if btn(1) then player.x += 2 player.flip1 = true player.flip2 = false end
+  if btn(2) then player.y -= 2 player.flip1 = false player.flip2 = true end
+  if btn(3) then player.y += 2 player.flip1 = false player.flip2 = false end
+
+end 
+
 
 function draw_shop_screen()
   -- Draw screen 2
@@ -189,14 +210,6 @@ function update_home()
   end
 end
 
--- Similar update functions for other screens
-function update_shmup_screen()
-  -- Update logic for shmup screen if needed
-  if btnp(5) then
-    cls()
-    current_screen = "home"
-  end
-end 
 
 function update_shop_screen()
   -- Update logic for shop screen if needed
