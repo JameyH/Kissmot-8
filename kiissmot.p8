@@ -16,7 +16,7 @@ pet_interaction_frame = 0
 frame_count = 0
 
 --player position
-player = {x=64, y=64,flip1=false, flip2=false}
+player = {x=64, y=64,flip1=false, flip2=false, yvel=0, xvel=0}
 
 
 
@@ -137,6 +137,7 @@ function draw_shmup_screen()
   -- the main character is sprite 6, his position should be a variable, so he can move
   cls(0)
   spr(6, player.x, player.y, 2, 2,player.flip1,player.flip2)
+  print(player.x..","..player.y, 40, 40, 7)
 end
 
 -- Similar update functions for other screens
@@ -146,11 +147,23 @@ function update_shmup_screen()
     cls()
     current_screen = "home"
   end
+  --left and right movement
 
-  if btn(0) then player.x -= 2 player.flip1 = false player.flip2 = false end
-  if btn(1) then player.x += 2 player.flip1 = true player.flip2 = false end
-  if btn(2) then player.y -= 2 player.flip1 = false player.flip2 = true end
-  if btn(3) then player.y += 2 player.flip1 = false player.flip2 = false end
+  -- Move the player
+  player.y += player.yvel
+
+  speed = 2
+  if btn(1) then player.x += speed player.flip1 = true player.flip2 = false end
+  if btn(0) then player.x -= speed player.flip1 = false player.flip2 = false end
+
+  -- Gravity
+  if player.y >= 64 then player.yvel = min(0,yvel) end
+  if player.y < 64 then player.yvel += 0.4 end
+
+
+  -- Jump
+  if btnp(4) and player.yvel == 0  then player.yvel = -5 end
+
 
 end 
 
