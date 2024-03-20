@@ -162,7 +162,7 @@ function update_shmup_screen()
 
 
   -- Jump
-  if btnp(4) and player.yvel == 0  then player.yvel = -5 end
+  if btnp(4) and player.yvel == 0  then player.yvel = -3.8 end
 
 
 end 
