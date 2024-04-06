@@ -136,6 +136,7 @@ function draw_shmup_screen()
   -- Draw screen 1
   -- the main character is sprite 6, his position should be a variable, so he can move
   cls(0)
+  map()
   spr(6, player.x, player.y, 2, 2,player.flip1,player.flip2)
   print(player.x..","..player.y, 40, 40, 7)
 end
