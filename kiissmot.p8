@@ -12,7 +12,7 @@ home_button = 0
 is_flashing = false
 pet_interaction_frame = 0
 
-
+second_name = "kyouchan"
 frame_count = 0
 
 --player position
