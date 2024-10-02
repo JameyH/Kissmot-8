@@ -4,7 +4,7 @@ __lua__
 -- Global Variables
 pet_stats = {hunger=100, energy=100, happiness=100}
 money = 0
-pet_name = "kiissmot"
+pet_name = "kiss"
 current_screen = "home"
 
 -- Variables for the home screen
