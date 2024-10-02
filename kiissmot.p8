@@ -4,7 +4,7 @@ __lua__
 -- Global Variables
 pet_stats = {hunger=100, energy=100, happiness=100}
 money = 0
-pet_name = "kissmin"
+pet_name = "kissmin (Suwapat)"
 current_screen = "home"
 
 -- Variables for the home screen
@@ -14,6 +14,7 @@ pet_interaction_frame = 0
 
 second_name = "kyouchan"
 frame_count = 0
+
 
 --player position
 --player = {x=-48, y=64,flp=false, flip2=false, dy=0, dx=0}
