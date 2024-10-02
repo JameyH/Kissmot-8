@@ -14,7 +14,7 @@ pet_interaction_frame = 0
 
 second_name = "kyouchan"
 --Still thinking of thrid name
-third_name = kyousong
+third_name = "kyousong"
 frame_count = 0
 
 --player position
